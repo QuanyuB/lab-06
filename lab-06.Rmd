@@ -93,28 +93,49 @@ It seems that the better the quality of the diamond, the less table length they 
 
 ## Exercise 3
 
-```{=latex}
+$$
 \begin{equation}
 \bar{x}_g=\sqrt[n]{\prod_{i=1}^n x_i}
 \end{equation}
-```
-
-```{=latex}
+$$
+$$
 \begin{equation}
-\ln{\bar{x}_g}=\ln{\sqrt[n]{\prod_{i=1}^n x_i}
+\ln{\bar{x}_g}=\ln{\sqrt[n]{\prod_{i=1}^n x_i}}
 \end{equation}
-```
-
-```{=latex}
+$$
+$$
 \begin{equation}
-\bar{x}_g=e^{\ln{\sqrt[n]{\prod_{i=1}^n x_i}}
+\bar{x}_g=exp \left( {\ln{\sqrt[n]{\prod_{i=1}^n x_i}}} \right)
 \end{equation}
-```
+$$
+$$
+\begin{equation}
+\bar{x}_g= exp \left( \frac{1}{n}\ln{\prod_{i=1}^n x_i} \right)
+\end{equation}
+$$
+$$
+\begin{equation}
+\bar{x}_g=exp \left( \frac{1}{n}\ln{(x_1 \cdot x_2 \cdot x_3 \cdot … \cdot x_i)} \right)
+\end{equation}
+$$
+$$
+\begin{equation}
+\bar{x}_g=exp \left( \frac{1}{n} \left( \ln{x_1} + \ln{x_2} + \ln{x_3} + \dots + \ln{x_i} \right) \right)
+\end{equation}
+$$
+$$
+\begin{equation}
+\bar{x}_g=exp \left( \frac{1}{n}\sum_{i=1}^n \ln{x_i} \right)
+\end{equation}
+$$
 ## Exercise 4
 
 ```{r}
 # Write gmean() command
-
+gmean <- function(x){
+    n = length(x)
+    exp(1/n * sum(log(x)))
+}
 
 
 ```
@@ -135,6 +156,9 @@ test_data <- list(
 
 # Create for loop to test gmean() on the above examples
 
+for(i in test_data){
+  print(i)
+}
 
 ```
 
