@@ -11,6 +11,7 @@ output: html_document
 ```{r load-packages, message=FALSE}
 library(tidyverse) 
 library(ggplot2)
+library(gridExtra)
 ```
 
 ```{r diamon_rename}
@@ -27,11 +28,45 @@ diamonds <- diamonds %>% rename(
 ## Exercise 1
 
 ```{r}
+theme_set(theme_bw())
+
 # Do some preliminary investigations & cleaning
+diamonds <- diamonds %>%
+  filter(depth_mm != 0)
 
+diamonds %>%
+  ggplot(mapping = aes(x = price, fill = cut)) + 
+  geom_bar() 
 
+plot1 <- diamonds %>%
+  ggplot(mapping = aes(x = width_mm, y = depth_mm)) + 
+  geom_point(alpha = 0.5,
+             color = "orange",
+             shape = 19) + 
+  geom_smooth(method = "lm", 
+              se = FALSE,
+              color="darkorange") +
+  labs(
+        title = "Diamonds Depth against Width",
+        x = "Width, in mm",
+        y = "Depth, in mm"
+          )
 
+plot2 <- diamonds %>%
+  ggplot(mapping = aes(x = length_mm, y = depth_mm)) + 
+  geom_point(alpha = 0.5,
+             color = "lightblue",
+             shape = 19) + 
+  geom_smooth(method = "lm", 
+              se = FALSE,
+              color = "blue") +
+  labs(
+        title = "Diamonds Depth against Length",
+        x = "Length, in mm",
+        y = "Depth, in mm"
+          )
 
+grid.arrange(plot1, plot2, ncol=2)
 ```
 
 
@@ -42,29 +77,39 @@ diamonds <- diamonds %>% rename(
 diamonds <- diamonds %>%
   mutate(table_mm = table_pct * width_mm / 100)
 
-# Overall table_mm arithmetic mean?
+# Overall table_mm arithmetic mean
 
-
-
-
-
+diamonds %>%
+  summarise(avg_table = mean(table_mm))
 
 # table_mm arithmetic mean within each clarity category
 
-
-
-
-
-
+diamonds %>% 
+  group_by(clarity) %>%
+  summarise(avg = mean(table_mm))
 ```
 
-_Add your comment here_
+It seems that the better the quality of the diamond, the less table length they have as shown in the table above.
 
 ## Exercise 3
 
-_Do derivation on paper, unless you know how to write LaTeX code_
+```{=latex}
+\begin{equation}
+\bar{x}_g=\sqrt[n]{\prod_{i=1}^n x_i}
+\end{equation}
+```
 
+```{=latex}
+\begin{equation}
+\ln{\bar{x}_g}=\ln{\sqrt[n]{\prod_{i=1}^n x_i}
+\end{equation}
+```
 
+```{=latex}
+\begin{equation}
+\bar{x}_g=e^{\ln{\sqrt[n]{\prod_{i=1}^n x_i}}
+\end{equation}
+```
 ## Exercise 4
 
 ```{r}
